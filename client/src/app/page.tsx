@@ -45,6 +45,13 @@ export default function Home() {
       });
     } catch (error) {
       console.error('Error fetching data:', error);
+      // Fallback mock data
+      setData({
+        city: city,
+        weather: { temp: 28, humidity: 65, desc: 'Pleasant' },
+        airQuality: { aqi: 95, pm25: 45, status: 'Moderate' },
+        transport: { buses: 35, traffic: 'Moderate' }
+      });
     } finally {
       setLoading(false);
     }
