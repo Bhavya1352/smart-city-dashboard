@@ -31,13 +31,13 @@ const LandingPage = ({ onEnterDashboard }: LandingPageProps) => {
             key={img.id}
             initial={{ 
               x: -800,
-              y: (index * window.innerHeight / 3),
+              y: (index * (typeof window !== 'undefined' ? window.innerHeight : 800) / 3),
               scale: 0,
               rotate: -180
             }}
             animate={{ 
               x: 0,
-              y: (index * window.innerHeight / 3),
+              y: (index * (typeof window !== 'undefined' ? window.innerHeight : 800) / 3),
               scale: [0, 1.5, 1],
               rotate: [180, 0]
             }}
@@ -68,13 +68,13 @@ const LandingPage = ({ onEnterDashboard }: LandingPageProps) => {
             key={img.id}
             initial={{ 
               x: 800,
-              y: (index * window.innerHeight / 3),
+              y: (index * (typeof window !== 'undefined' ? window.innerHeight : 800) / 3),
               scale: 0,
               rotate: 180
             }}
             animate={{ 
               x: 0,
-              y: (index * window.innerHeight / 3),
+              y: (index * (typeof window !== 'undefined' ? window.innerHeight : 800) / 3),
               scale: [0, 1.5, 1],
               rotate: [-180, 0]
             }}
