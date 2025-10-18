@@ -31,13 +31,13 @@ const LandingPage = ({ onEnterDashboard }: LandingPageProps) => {
             key={img.id}
             initial={{ 
               x: -800,
-              y: (index * (typeof window !== 'undefined' ? window.innerHeight : 800) / 3),
+              y: index * 250,
               scale: 0,
               rotate: -180
             }}
             animate={{ 
               x: 0,
-              y: (index * (typeof window !== 'undefined' ? window.innerHeight : 800) / 3),
+              y: index * 250,
               scale: [0, 1.5, 1],
               rotate: [180, 0]
             }}
@@ -51,7 +51,7 @@ const LandingPage = ({ onEnterDashboard }: LandingPageProps) => {
                 setTimeout(() => setShowContent(true), 50);
               }
             }}
-            className="absolute w-full h-1/3 overflow-hidden"
+            className="absolute w-full h-80 overflow-hidden"
           >
             <img 
               src={img.src} 
@@ -68,13 +68,13 @@ const LandingPage = ({ onEnterDashboard }: LandingPageProps) => {
             key={img.id}
             initial={{ 
               x: 800,
-              y: (index * (typeof window !== 'undefined' ? window.innerHeight : 800) / 3),
+              y: index * 250,
               scale: 0,
               rotate: 180
             }}
             animate={{ 
               x: 0,
-              y: (index * (typeof window !== 'undefined' ? window.innerHeight : 800) / 3),
+              y: index * 250,
               scale: [0, 1.5, 1],
               rotate: [-180, 0]
             }}
@@ -83,7 +83,7 @@ const LandingPage = ({ onEnterDashboard }: LandingPageProps) => {
               delay: img.delay,
               ease: "easeOut"
             }}
-            className="absolute w-full h-1/3 overflow-hidden"
+            className="absolute w-full h-80 overflow-hidden"
           >
             <img 
               src={img.src} 
@@ -116,19 +116,7 @@ const LandingPage = ({ onEnterDashboard }: LandingPageProps) => {
             Welcome to
           </span>
           <br />
-          <motion.span
-            animate={{ 
-              textShadow: [
-                "0 0 20px rgba(59, 130, 246, 0.5)",
-                "0 0 40px rgba(139, 92, 246, 0.7)",
-                "0 0 20px rgba(59, 130, 246, 0.5)"
-              ]
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-white"
-          >
-            Apna City
-          </motion.span>
+          <span className="text-white">Apna City</span>
         </motion.h1>
 
         <motion.p
@@ -150,20 +138,12 @@ const LandingPage = ({ onEnterDashboard }: LandingPageProps) => {
             opacity: showContent ? 1 : 0 
           }}
           transition={{ delay: 0.6, duration: 0.5 }}
-          whileHover={{ 
-            scale: 1.05,
-            boxShadow: "0 0 30px rgba(59, 130, 246, 0.6)"
-          }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={onEnterDashboard}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xl px-12 py-4 rounded-full font-semibold shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300"
+          className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xl px-12 py-4 rounded-full font-semibold shadow-2xl"
         >
-          <motion.span
-            animate={{ x: [0, 5, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            Enter Dashboard →
-          </motion.span>
+          Enter Dashboard →
         </motion.button>
       </motion.div>
     </div>
