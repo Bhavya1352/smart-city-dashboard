@@ -1,0 +1,11 @@
+{
+  "name": "Smart City Dashboard",
+  "short_name": "CityDash",
+  "description": "Real-time city data dashboard with weather, air quality, and transport information",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "categories": ["utilities", "weather", "travel"]
+}

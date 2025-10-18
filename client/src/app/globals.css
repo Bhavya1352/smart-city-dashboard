@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 4px;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Shimmer loading effect */
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background-size: 468px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Theme transition */
+body {
+  transition: background 0.5s ease, color 0.3s ease;
+}
+
+/* Leaflet map styles */
+.leaflet-container {
+  background: rgba(15, 23, 42, 0.8) !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(15, 23, 42, 0.9) !important;
+  color: white !important;
+  border-radius: 8px !important;
+}
+
+/* Light theme styles */
+body.light {
+  color: #1e293b !important;
+}
+
+body.light .text-white {
+  color: #1e293b !important;
+}
+
+body.light .text-gray-300 {
+  color: #64748b !important;
+}
+
+body.light .bg-slate-900\/via-purple-900 {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%) !important;
+}
+
+body.light .backdrop-blur-md {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+body.light .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
