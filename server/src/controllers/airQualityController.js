@@ -130,6 +130,7 @@ const getAirQualityData = async (req, res) => {
         normalizedCity,
         airQuality: { aqi: 85, pm25: 45, pm10: 65, status: 'Moderate', no2: 25, so2: 15, co: 500, o3: 40 },
         predictions: { nextHours: [85, 90, 88], trend: 'stable' },
+        source: 'fallback',
         updatedAt: new Date().toISOString(),
       };
 

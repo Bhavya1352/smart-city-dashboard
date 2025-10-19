@@ -131,6 +131,7 @@ const getWeatherData = async (req, res) => {
         city,
         weather: { temp: 25, humidity: 65, desc: 'Partly cloudy', icon: '02d', windSpeed: 10, pressure: 1013 },
         predictions: { nextHours: [25, 26, 27], trend: 'stable' },
+        source: 'fallback',
         updatedAt: new Date().toISOString(),
       };
 

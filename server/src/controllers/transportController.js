@@ -109,6 +109,7 @@ const getTransportData = async (req, res) => {
         speedKmh: 35
       },
       predictions: { nextHours: ['Moderate', 'High', 'Moderate'], trend: 'stable' },
+      source: 'fallback',
       updatedAt: new Date().toISOString(),
     };
 
