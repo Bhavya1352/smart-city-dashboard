@@ -7,7 +7,17 @@ interface AirQualityData {
   airQuality?: {
     aqi: number;
     pm25: number;
+    pm10?: number;
     status: string;
+    no2?: number;
+    so2?: number;
+    co?: number;
+    o3?: number;
+  };
+  airQualityPredictions?: {
+    nextHours: number[];
+    trend: string;
+    confidence: number;
   };
 }
 
@@ -77,7 +87,7 @@ const AirQualityCard = ({ data }: AirQualityCardProps) => {
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
-              className={`text-4xl font-bold ${
+              className={`text-3xl sm:text-4xl font-bold ${
                 data.airQuality.aqi <= 50 ? 'text-green-400' :
                 data.airQuality.aqi <= 100 ? 'text-yellow-400' :
                 data.airQuality.aqi <= 150 ? 'text-orange-400' :
@@ -104,11 +114,15 @@ const AirQualityCard = ({ data }: AirQualityCardProps) => {
           </div>
           
           <div className="space-y-2">
-            <div className="flex justify-between text-sm text-purple-100">
-              <span>PM2.5</span>
-              <span>{data.airQuality.pm25} μg/m³</span>
+            <div className="grid grid-cols-2 gap-2 text-sm text-purple-100">
+              <div>
+                <span>PM2.5: {data.airQuality.pm25} μg/m³</span>
+              </div>
+              <div>
+                <span>PM10: {data.airQuality.pm10 || Math.round(data.airQuality.pm25 * 1.3)} μg/m³</span>
+              </div>
             </div>
-            
+
             <motion.div
               className="w-full bg-white/10 rounded-full h-3 overflow-hidden relative"
               initial={{ scaleX: 0 }}
@@ -129,10 +143,38 @@ const AirQualityCard = ({ data }: AirQualityCardProps) => {
               </motion.div>
             </motion.div>
           </div>
-          
+
           <div className="text-xs text-purple-200 opacity-75">
             AQI Scale: 0-50 Good, 51-100 Moderate, 101-150 Unhealthy for Sensitive Groups
           </div>
+
+          {/* Prediction Analysis */}
+          {data.airQualityPredictions && (
+            <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
+              <h4 className="text-sm font-semibold text-purple-200 mb-2 flex items-center">
+                <span className="mr-2">🔮</span>
+                6-Hour AQI Forecast
+              </h4>
+              <div className="flex items-center justify-between text-xs text-purple-100 mb-2">
+                <span>Trend: {data.airQualityPredictions.trend === 'worsening' ? '📈 Worsening' :
+                              data.airQualityPredictions.trend === 'improving' ? '📉 Improving' : '📊 Stable'}</span>
+                <span className="text-purple-300">{data.airQualityPredictions.confidence}% confidence</span>
+              </div>
+              <div className="flex space-x-1">
+                {data.airQualityPredictions.nextHours.slice(0, 6).map((aqi: number, index: number) => (
+                  <div key={index} className="flex-1 text-center">
+                    <div className="text-xs text-purple-200">{['1h', '2h', '3h', '4h', '5h', '6h'][index]}</div>
+                    <div className={`text-sm font-semibold ${
+                      aqi <= 50 ? 'text-green-400' :
+                      aqi <= 100 ? 'text-yellow-400' :
+                      aqi <= 150 ? 'text-orange-400' :
+                      aqi <= 200 ? 'text-red-400' : 'text-purple-400'
+                    }`}>{aqi}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="animate-pulse space-y-3">

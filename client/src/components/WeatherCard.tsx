@@ -10,6 +10,13 @@ interface WeatherData {
     humidity: number;
     desc: string;
     icon?: string;
+    windSpeed?: number;
+    pressure?: number;
+  };
+  weatherPredictions?: {
+    nextHours: number[];
+    trend: string;
+    confidence: number;
   };
   city?: string;
 }
@@ -80,7 +87,7 @@ const WeatherCard = ({ data }: WeatherCardProps) => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.3, type: 'spring' }}
-              className="text-4xl font-bold text-white"
+              className="text-3xl sm:text-4xl font-bold text-white"
             >
               {data.weather.temp}°C
             </motion.span>
@@ -96,7 +103,7 @@ const WeatherCard = ({ data }: WeatherCardProps) => {
             </div>
             <div className="flex items-center space-x-1">
               <span>💨</span>
-              <span>12 km/h</span>
+              <span>{data.weather.windSpeed || 12} km/h</span>
             </div>
           </div>
           
@@ -115,8 +122,8 @@ const WeatherCard = ({ data }: WeatherCardProps) => {
           </motion.div>
 
           <div className="h-16 mt-4">
-            <Line 
-              data={tempTrend} 
+            <Line
+              data={tempTrend}
               options={{
                 responsive: true,
                 maintainAspectRatio: false,
@@ -126,9 +133,32 @@ const WeatherCard = ({ data }: WeatherCardProps) => {
                   y: { display: false }
                 },
                 elements: { line: { borderWidth: 2 } }
-              }} 
+              }}
             />
           </div>
+
+          {/* Prediction Analysis */}
+          {data.weatherPredictions && (
+            <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
+              <h4 className="text-sm font-semibold text-blue-200 mb-2 flex items-center">
+                <span className="mr-2">🔮</span>
+                6-Hour Forecast
+              </h4>
+              <div className="flex items-center justify-between text-xs text-blue-100 mb-2">
+                <span>Trend: {data.weatherPredictions.trend === 'warming' ? '🌡️ Rising' :
+                              data.weatherPredictions.trend === 'cooling' ? '❄️ Falling' : '📊 Stable'}</span>
+                <span className="text-blue-300">{data.weatherPredictions.confidence}% confidence</span>
+              </div>
+              <div className="flex space-x-1">
+                {data.weatherPredictions.nextHours.slice(0, 6).map((temp: number, index: number) => (
+                  <div key={index} className="flex-1 text-center">
+                    <div className="text-xs text-blue-200">{['1h', '2h', '3h', '4h', '5h', '6h'][index]}</div>
+                    <div className="text-sm font-semibold text-white">{temp}°</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="animate-pulse space-y-3">
