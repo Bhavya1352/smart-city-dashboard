@@ -8,6 +8,15 @@ interface TransportData {
     buses: number;
     traffic: string;
     metro?: number;
+    congestionIndex?: number;
+    avgWaitTime?: number;
+    activeRoutes?: number;
+    speedKmh?: number;
+  };
+  transportPredictions?: {
+    nextHours: string[];
+    trend: string;
+    confidence: number;
   };
 }
 
@@ -67,7 +76,7 @@ const TransportCard = ({ data }: TransportCardProps) => {
             <div className="flex items-center space-x-2">
               <span className="text-2xl">🚍</span>
               <div>
-                <div className="text-2xl font-bold text-white">
+                <div className="text-xl sm:text-2xl font-bold text-white">
                   {data.transport.buses}
                 </div>
                 <div className="text-xs text-green-200">Active Buses</div>
@@ -93,24 +102,55 @@ const TransportCard = ({ data }: TransportCardProps) => {
             <motion.div
               className={`h-full bg-gradient-to-r ${getTrafficColor(data.transport.traffic)}`}
               initial={{ width: 0 }}
-              animate={{ 
-                width: data.transport.traffic?.toLowerCase() === 'low' ? '30%' : 
-                       data.transport.traffic?.toLowerCase() === 'moderate' ? '60%' : '90%' 
+              animate={{
+                width: data.transport.traffic?.toLowerCase() === 'low' ? '30%' :
+                       data.transport.traffic?.toLowerCase() === 'moderate' ? '60%' : '90%'
               }}
               transition={{ duration: 1.5, delay: 0.8 }}
             />
           </motion.div>
-          
+
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="flex items-center space-x-2">
               <span>🚇</span>
-              <span className="text-green-100">Metro: Available</span>
+              <span className="text-green-100">Metro: {data.transport.metro || 12} lines</span>
             </div>
             <div className="flex items-center space-x-2">
               <span>🚕</span>
-              <span className="text-green-100">Taxi: Active</span>
+              <span className="text-green-100">Avg Speed: {data.transport.speedKmh || 35} km/h</span>
             </div>
           </div>
+
+          <div className="text-xs text-green-200 opacity-75">
+            Congestion: {data.transport.congestionIndex || 65}% • Wait Time: {data.transport.avgWaitTime || 6} min
+          </div>
+
+          {/* Prediction Analysis */}
+          {data.transportPredictions && (
+            <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
+              <h4 className="text-sm font-semibold text-green-200 mb-2 flex items-center">
+                <span className="mr-2">🔮</span>
+                6-Hour Traffic Forecast
+              </h4>
+              <div className="flex items-center justify-between text-xs text-green-100 mb-2">
+                <span>Trend: {data.transportPredictions.trend === 'worsening' ? '🚗 Worsening' :
+                              data.transportPredictions.trend === 'improving' ? '🚀 Improving' : '📊 Stable'}</span>
+                <span className="text-green-300">{data.transportPredictions.confidence}% confidence</span>
+              </div>
+              <div className="flex space-x-1">
+                {data.transportPredictions.nextHours.slice(0, 6).map((level: string, index: number) => (
+                  <div key={index} className="flex-1 text-center">
+                    <div className="text-xs text-green-200">{['1h', '2h', '3h', '4h', '5h', '6h'][index]}</div>
+                    <div className={`text-sm font-semibold ${
+                      level.toLowerCase().includes('low') ? 'text-green-400' :
+                      level.toLowerCase().includes('moderate') ? 'text-yellow-400' :
+                      level.toLowerCase().includes('high') ? 'text-orange-400' : 'text-red-400'
+                    }`}>{level}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="animate-pulse space-y-3">

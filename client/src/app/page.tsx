@@ -17,7 +17,7 @@ import LandingPage from '@/components/LandingPage';
 import RainAlert from '@/components/RainAlert';
 
 export default function Home() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [currentCity, setCurrentCity] = useState('Delhi');
   const [showComparison, setShowComparison] = useState(false);
@@ -39,9 +39,18 @@ export default function Home() {
       ]);
 
       setData({
-        ...weatherData,
-        ...airQualityData,
-        ...transportData,
+        weather: weatherData.weather,
+        airQuality: airQualityData.airQuality,
+        transport: transportData.transport,
+        weatherPredictions: weatherData.predictions,
+        airQualityPredictions: airQualityData.predictions,
+        transportPredictions: transportData.predictions,
+        city: city,
+        sources: {
+          weather: weatherData.source,
+          airQuality: airQualityData.source,
+          transport: transportData.source,
+        }
       });
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -50,7 +59,8 @@ export default function Home() {
         city: city,
         weather: { temp: 28, humidity: 65, desc: 'Pleasant' },
         airQuality: { aqi: 95, pm25: 45, status: 'Moderate' },
-        transport: { buses: 35, traffic: 'Moderate' }
+        transport: { buses: 35, traffic: 'Moderate' },
+        sources: { weather: 'mock', airQuality: 'mock', transport: 'mock' }
       });
     } finally {
       setLoading(false);
@@ -68,6 +78,8 @@ export default function Home() {
   if (showLanding) {
     return <LandingPage onEnterDashboard={() => setShowLanding(false)} />;
   }
+
+  const isMockData = data?.sources && Object.values(data.sources).some(s => s?.toLowerCase().includes('mock'));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -92,6 +104,12 @@ export default function Home() {
           currentCity={currentCity}
           onShowComparison={() => setShowComparison(true)}
         />
+
+        {isMockData && (
+          <div className="bg-yellow-500 text-black p-4 text-center">
+              You are currently viewing mock data. For real-time data, please add your API keys to a `.env` file in the `server` directory.
+          </div>
+        )}
         
         {/* Rain Alert */}
         <RainAlert weatherData={data} />
@@ -121,9 +139,9 @@ export default function Home() {
             <div className="space-y-8 py-8">
               {/* Main Data Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <WeatherCard data={data} />
-                <AirQualityCard data={data} />
-                <TransportCard data={data} />
+                <WeatherCard data={{ weather: data?.weather, weatherPredictions: data?.weatherPredictions }} />
+                <AirQualityCard data={{ airQuality: data?.airQuality, airQualityPredictions: data?.airQualityPredictions }} />
+                <TransportCard data={{ transport: data?.transport, transportPredictions: data?.transportPredictions }} />
               </div>
 
               {/* Predictive Analytics */}

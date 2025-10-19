@@ -76,7 +76,7 @@ const Navbar = ({ onCitySearch, currentCity, onShowComparison }: NavbarProps) =>
       className="bg-gradient-to-r from-slate-900/90 to-slate-800/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-50"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between flex-wrap md:flex-nowrap h-auto md:h-16 py-2 md:py-0">
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -89,13 +89,13 @@ const Navbar = ({ onCitySearch, currentCity, onShowComparison }: NavbarProps) =>
             >
               🏙️
             </motion.div>
-            <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            <span className="hidden md:inline text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               Smart City Dashboard
             </span>
           </motion.div>
 
           {/* Search Bar */}
-          <div className="flex-1 max-w-md mx-8 relative" ref={searchRef}>
+          <div className="w-full md:flex-1 order-last md:order-none mt-2 md:mt-0 md:max-w-md md:mx-8 relative" ref={searchRef}>
             <form onSubmit={handleSearch} className="relative">
               <motion.div
                 animate={{ 
@@ -110,7 +110,7 @@ const Navbar = ({ onCitySearch, currentCity, onShowComparison }: NavbarProps) =>
                   value={searchInput}
                   onChange={handleInputChange}
                   onFocus={handleInputFocus}
-                  placeholder={`Search cities... (Current: ${currentCity})`}
+                  placeholder={`Search... (Current: ${currentCity})`}
                   className="w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-3 pl-12 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-300"
                 />
                 <motion.div
@@ -197,7 +197,7 @@ const Navbar = ({ onCitySearch, currentCity, onShowComparison }: NavbarProps) =>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <VoiceSearch onCitySearch={onCitySearch} />
             <FavoriteCities onCitySelect={onCitySearch} currentCity={currentCity} />
             <ThemeToggle />
