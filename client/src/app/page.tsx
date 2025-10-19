@@ -79,7 +79,10 @@ export default function Home() {
     return <LandingPage onEnterDashboard={() => setShowLanding(false)} />;
   }
 
-  const isMockData = data?.sources && Object.values(data.sources).some(s => s?.toLowerCase().includes('mock'));
+ const isMockData = data?.sources && 
+  Object.values(data.sources as Record<string, string>)
+    .some(s => s?.toLowerCase().includes('mock'));
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
