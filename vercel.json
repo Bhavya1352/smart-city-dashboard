@@ -19,9 +19,5 @@
       "src": "/(.*)",
       "dest": "/client/$1"
     }
-  ],
-  "env": {
-    "OPENWEATHER_API_KEY": "@openweather_api_key",
-    "TOMTOM_API_KEY": "@tomtom_api_key"
-  }
+  ]
 }
